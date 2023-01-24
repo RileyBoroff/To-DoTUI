@@ -15,6 +15,20 @@ view_names () {
     ls *.txt | sed -e 's/\.txt$//'
     cd ..
 }
+
+new_task () {
+    until [[ $item == exit ]]
+do
+    echo "enter a item to add to the list"
+    read item
+    if [[ $item != "exit" ]];
+    then    
+    echo "add a due date"
+    read date
+    echo $item ":|" $date >> list/$list.txt
+    fi
+done
+}
 clear
 echo 'Welcom to to-doTUI'
 
@@ -30,25 +44,17 @@ read -e -p "To-DoTUI>" options
         if [ -w list/$list.txt ];
         #checks if a writable file with the given name exist 
         then
-            echo "enter a item to add to the list"
-            read item
-            echo "add a due date"
-            read date
-            echo $item $date >> list/$list.txt          
+        new_task         
         else
             touch $list.txt
             echo $list >> list/$list.txt
-            echo "enter a item to add to the list"
-            read item
-            echo "add a due date"
-            read date
-            echo $item $date >> list/$list.txt
+            new_task
         fi;;
 
         "view a")
         #view all to-do list
         echo "all todo list"
-        cat list/*.txt;;
+        cat list/*.txt|column --table --separator [:];;
  
         "new l")
         #add new to-do list
@@ -66,11 +72,21 @@ read -e -p "To-DoTUI>" options
         view_names
         echo "enter the name of the list to view"
         read list
-        less list/$list.txt;;
+        cat list/$list.txt|column --table --separator [:];;
 
         "view n")
         #view all to-do list names
         view_names;;
+        
+        "rm t")
+        view_names
+        echo "enter a to-do list"
+        read list
+        cat -n list/$list.txt
+        echo "enter the line number to remove from the list"
+        read item
+        sed -i "$item"d list/$list.txt
+        ;;
         
         clear)
         clear;;
