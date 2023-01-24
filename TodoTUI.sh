@@ -74,7 +74,7 @@ read -e -p "To-DoTUI>" options
         clear;;
 
         help)
-        less readme;;
+        less help;;
 
         exit)
         ;;
