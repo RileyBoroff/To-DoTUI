@@ -9,7 +9,7 @@ Then add the appropriate permissions to the file. <br>
 `chmod +x TodoTUI.sh`<br>
 Now you can execute it the same way you would any other script. <br>
 `./TodoTui.sh`<br>
-To make the script executable from anywhere add this to your bahsrc
+To make the script executable from anywhere add this to your bahsrc <br>
 `export PATH="/FULL PATH TO/To-DoTUI:$PATH"`
 
 ## Commands
