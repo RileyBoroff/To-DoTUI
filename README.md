@@ -15,7 +15,8 @@ Now you can execute it the same way you would any other script. <br>
 `exit`<br>
     close the program<br>
 `new t`<br>
-    add a new task to a  specific list<br>
+    add a new task to a specific list<br>
+    This will prompt for more task until the `exit` option is given<br>
 `rm t`<br>
     remove a task from a specific list<br>
 `view a`<br>
