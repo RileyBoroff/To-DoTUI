@@ -64,7 +64,7 @@ read -e -p "To-DoTUI>" options
         view_names
         echo "enter the name of the list to view"
         read list
-        less lsit/$list.txt;;
+        less list/$list.txt;;
 
         "view n")
         #view all to-do list names
@@ -74,7 +74,7 @@ read -e -p "To-DoTUI>" options
         clear;;
 
         help)
-        less help;;
+        less help.txt;;
 
         exit)
         ;;
