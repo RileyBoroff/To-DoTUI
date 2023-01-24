@@ -11,7 +11,9 @@ new_list () {
 view_names () {
     #shows the names of all the to-do list without the file extention
     echo "all todo list"
-    ls list/*.txt | sed -e 's/\.txt$//'   
+    cd list
+    ls *.txt | sed -e 's/\.txt$//'
+    cd ..
 }
 clear
 echo 'Welcom to to-doTUI'
@@ -82,4 +84,4 @@ read -e -p "To-DoTUI>" options
         *)
         echo "invalad inut detected";;
     esac
-done    
+done
