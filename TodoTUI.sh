@@ -1,11 +1,13 @@
 #!/bin/bash
-
+#Location="PATHTOSCRIPTHERE"
+#cd $Location
 new_list () {
     #creates a new to-do list and adds the file name to the first line of the file
     echo "enter a name for the new list"
-    read list
+    read -e list
     touch list/$list.txt
     echo $list >> list/$list.txt
+    echo "Task :| Due Date"
 }
 
 view_names () {
@@ -17,14 +19,15 @@ view_names () {
 }
 
 new_task () {
-    until [[ $item == exit ]]
+    unset item
+        until [[ $item == exit ]]
 do
     echo "enter a item to add to the list"
-    read item
+    read -e item
     if [[ $item != "exit" ]];
     then    
     echo "add a due date"
-    read date
+    read -e date
     echo $item ":|" $date >> list/$list.txt
     fi
 done
@@ -40,15 +43,13 @@ read -e -p "To-DoTUI>" options
         #add a new task to a specific list
         view_names
         echo "enter a to-do list"
-        read list
+        read -e list
         if [ -w list/$list.txt ];
         #checks if a writable file with the given name exist 
         then
         new_task         
         else
-            touch $list.txt
-            echo $list >> list/$list.txt
-            new_task
+            echo "not a list name"
         fi;;
 
         "view a")
@@ -64,14 +65,14 @@ read -e -p "To-DoTUI>" options
         #delete to-do list
         view_names       
         echo "enter the name of the list to be deleted"
-        read list
+        read -e list
         rm list/$list.txt;;
 
         "view")
         #view specific to-do list
         view_names
         echo "enter the name of the list to view"
-        read list
+        read -e list
         cat list/$list.txt|column --table --separator [:];;
 
         "view n")
@@ -81,10 +82,10 @@ read -e -p "To-DoTUI>" options
         "rm t")
         view_names
         echo "enter a to-do list"
-        read list
+        read -e list
         cat -n list/$list.txt
         echo "enter the line number to remove from the list"
-        read item
+        read -e item
         sed -i "$item"d list/$list.txt
         ;;
         
