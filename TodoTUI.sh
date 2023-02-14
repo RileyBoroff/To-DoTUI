@@ -6,8 +6,22 @@ new_list () {
     echo "enter a name for the new list"
     read -e list
     touch list/$list.txt
-    echo $list >> list/$list.txt
-    echo "Task :| Due Date"
+    length=${#list}
+    ((length++))
+    ((length++))
+    lengthTwo=$length
+    while [ $length -gt 0 ];
+        do
+          echo -n "#" >> list/$list.txt
+          ((length--))
+        done
+    echo -e "\n#"$list"#::" >> list/$list.txt
+        while [ $lengthTwo -gt 0 ];
+        do
+          echo -n "#" >> list/$list.txt
+          ((lengthTwo--))
+        done
+    echo -e "\n| Task :| Due Date:|" >> list/$list.txt
 }
 
 view_names () {
@@ -28,7 +42,7 @@ do
     then    
     echo "add a due date"
     read -e date
-    echo $item ":|" $date >> list/$list.txt
+    echo "|"$item ":|" $date":|" >> list/$list.txt
     fi
 done
 }
@@ -83,7 +97,7 @@ read -e -p "To-DoTUI>" options
         view_names
         echo "enter a to-do list"
         read -e list
-        cat -n list/$list.txt
+        cat -n list/$list.txt |column --table --separator [:]
         echo "enter the line number to remove from the list"
         read -e item
         sed -i "$item"d list/$list.txt
