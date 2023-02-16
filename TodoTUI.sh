@@ -1,6 +1,6 @@
 #!/bin/bash
-#Location="PATHTOSCRIPTHERE"
-#cd $Location
+source TodoTUI.conf
+cd $Location
 new_list () {
     #creates a new to-do list and adds the file name to the first line of the file
     echo "enter a name for the new list"
@@ -12,16 +12,16 @@ new_list () {
     lengthTwo=$length
     while [ $length -gt 0 ];
         do
-          echo -n "#" >> list/$list.txt
+          echo -n $box >> list/$list.txt
           ((length--))
         done
-    echo -e "\n#"$list"#::" >> list/$list.txt
+    echo -e "\n${box}${list}${box}::" >> list/$list.txt
         while [ $lengthTwo -gt 0 ];
         do
-          echo -n "#" >> list/$list.txt
+          echo -n $box >> list/$list.txt
           ((lengthTwo--))
         done
-    echo -e "\n| Task :| Due Date:|" >> list/$list.txt
+    echo -e "\n${column} Task :${column} Due Date:${column}" >> list/$list.txt
 }
 
 view_names () {
@@ -42,7 +42,7 @@ do
     then    
     echo "add a due date"
     read -e date
-    echo "|"$item ":|" $date":|" >> list/$list.txt
+    echo "${column}${item} :${column} ${date}:${column}" >> list/$list.txt
     fi
 done
 }
