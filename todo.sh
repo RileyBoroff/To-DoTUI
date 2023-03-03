@@ -1,6 +1,9 @@
 #!/bin/bash
 source TodoTUI.conf
 cd $Location
+cd list
+ToDoList="$(ls *.txt | sed -e 's/\.txt$//')"
+cd ..
 new_list () {
     #creates a new to-do list and adds the file name to the first line of the file
     echo "enter a name for the new list"
@@ -22,14 +25,6 @@ new_list () {
           ((lengthTwo--))
         done
     echo -e "\n${column} Task :${column} Due Date:${column}" >> list/$list.txt
-}
-
-view_names () {
-    #shows the names of all the to-do list without the file extention
-    echo "all todo list"
-    cd list
-    ls *.txt | sed -e 's/\.txt$//'
-    cd ..
 }
 
 new_task () {
@@ -54,14 +49,27 @@ do
 read -e -p "To-DoTUI>" options
     case $options in
         "new t")
-        #add a new task to a specific list
-        view_names
-        echo "enter a to-do list"
-        read -e list
+        select option in ${ToDoList}
+        do
+            list=$option
+            echo $list
+            break
+        done
         if [ -w list/$list.txt ];
         #checks if a writable file with the given name exist 
         then
-        new_task         
+            unset item
+        until [[ $item == exit ]]
+        do
+        echo "enter a item to add to the list"
+        read -e item
+        if [[ $item != "exit" ]];
+        then
+            echo "add a due date"
+            read -e date
+            echo "${column}${item} :${column} ${date}:${column}" >> list/$list.txt
+        fi
+        done
         else
             echo "not a list name"
         fi;;
@@ -77,26 +85,38 @@ read -e -p "To-DoTUI>" options
 
         "rm l")
         #delete to-do list
-        view_names       
-        echo "enter the name of the list to be deleted"
-        read -e list
+        select option in ${ToDoList}
+            do
+                list=$option
+                echo $list
+                break
+            done
         rm list/$list.txt;;
 
         "view")
         #view specific to-do list
-        view_names
-        echo "enter the name of the list to view"
-        read -e list
+        select option in ${ToDoList}
+        do
+            list=$option
+            echo $list
+            break
+        done
         cat list/$list.txt|column --table --separator [:];;
 
         "view n")
         #view all to-do list names
-        view_names;;
+        echo "all todo list"
+        cd list
+        ls *.txt | sed -e 's/\.txt$//'
+        cd ..;;
         
         "rm t")
-        view_names
-        echo "enter a to-do list"
-        read -e list
+        select option in ${ToDoList}
+        do
+            list=$option
+            echo $list
+            break
+        done
         cat -n list/$list.txt |column --table --separator [:]
         echo "enter the line number to remove from the list"
         read -e item
